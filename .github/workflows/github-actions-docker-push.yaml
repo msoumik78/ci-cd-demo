@@ -1,7 +1,7 @@
 name: GitHub Actions Docker Push
 on:
   push:
-    branches: [main]
+    branches: [dev]
 
 jobs:
   build-and-push:
