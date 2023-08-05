@@ -1,0 +1,26 @@
+Commands to build the image and run the container and login:
+========================================================================================================
+Build command : docker build -t soumik/java  -f Dockerfile1 .
+Run command (in background) : docker run -d  --name soumik-java-container1 soumik/java
+Login to the running container :  docker exec -it  soumik-java-container1 bash
+
+Commands to push the image to docker hub:
+=============================================
+Login to docker hub : docker login  --> Give username and password when asked
+Retag the docker image : docker tag soumik/java msoumik78/java
+Push the image finally : docker push msoumik78/java
+
+After pushing, stop the container, remove the container and finally remove the image of the container:
+========================================================================================================
+Stop a container : docker stop soumik-java-container1
+Remove the container : docker rm soumik-java-container1
+Remove the image : docker rmi soumik/java
+
+
+
+
+docker run -it  --name soumik-java-container2 soumik/java
+
+
+
+
