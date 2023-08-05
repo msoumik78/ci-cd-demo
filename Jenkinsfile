@@ -12,7 +12,7 @@ pipeline {
         stage('Dockerhub login') {
             steps {
                 echo 'Login..'
-                sh "docker login --username msoumik78@gmail.com --password JoyshreeMahakalbaba22$"
+                sh "docker login --username msoumik78@gmail.com --password JoyshreeMahakalbaba22\$"
             }
         }
         stage('Dockerhub Tag') {
