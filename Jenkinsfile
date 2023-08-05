@@ -1,33 +1,34 @@
 pipeline {
-    agent any
-
-    stages {
-        stage('Docker Build') {
-            steps {
-                echo 'Building..'
-                sh "docker build -t soumik/java  -f Dockerfile1 ."
-
-            }
-        }
-        stage('Dockerhub login') {
-            steps {
-                echo 'Login..'
-                sh "docker login --username msoumik78@gmail.com --password JoyshreeMahakalbaba22\$"
-            }
-        }
-        stage('Dockerhub Tag') {
-            steps {
-                echo 'Tagging..'
-                sh "docker tag soumik/java msoumik78/java"
-            }
-        }
-
-        stage('Dockerhub Push') {
-            steps {
-                echo 'Pushing..'
-                sh "docker push msoumik78/java"
-            }
-        }
-
+  environment {
+    dockerimagename = "msoumik78/java"
+    dockerImage = ""
+  }
+  agent any
+  stages {
+    stage('Checkout Source') {
+      steps {
+        git 'https://github.com/msoumik78/ci-cd-demo.git'
+      }
     }
+    stage('Build image') {
+      steps{
+        script {
+          dockerImage = docker.build dockerimagename
+        }
+      }
+    }
+    stage('Pushing Image') {
+      environment {
+               registryCredential = '2175e249-ab40-46ad-a23d-992ca41cc933'
+           }
+      steps{
+        script {
+          docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
+            dockerImage.push("latest")
+          }
+        }
+      }
+    }
+
+  }
 }
