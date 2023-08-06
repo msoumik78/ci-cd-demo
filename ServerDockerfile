@@ -1,0 +1,9 @@
+FROM eclipse-temurin:17-jdk-jammy AS BUILD_IMAGE
+WORKDIR /app
+COPY src/ServerSocketExample.java  .
+RUN javac ServerSocketExample.java
+
+FROM eclipse-temurin:17-jdk-jammy
+WORKDIR /app
+COPY --from=BUILD_IMAGE /app/ServerSocketExample.class .
+CMD ["java", "ServerSocketExample"]

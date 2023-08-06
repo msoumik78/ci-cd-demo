@@ -1,26 +1,56 @@
 Commands to build the image and run the container and login:
 ========================================================================================================
-Build command : docker build -t soumik/java  -f Dockerfile1 .
-Run command (in background) : docker run -d  --name soumik-java-container1 soumik/java
-Login to the running container :  docker exec -it  soumik-java-container1 bash
+Build command : docker build -t soumik/java2  -f Dockerfile2 .
+Run command (in background) : docker run -d  --name soumik-java-container2 soumik/java2
+Login to the running container :  docker exec -it  soumik-java-container2 bash
 
 Commands to push the image to docker hub:
 =============================================
 Login to docker hub : docker login  --> Give username and password when asked
-Retag the docker image : docker tag soumik/java msoumik78/java
+Retag the docker image : docker tag soumik/java2 msoumik78/java
 Push the image finally : docker push msoumik78/java
 
 After pushing, stop the container, remove the container and finally remove the image of the container:
 ========================================================================================================
-Stop a container : docker stop soumik-java-container1
-Remove the container : docker rm soumik-java-container1
-Remove the image : docker rmi soumik/java
+Stop a container : docker stop soumik-java-container2
+Remove the container : docker rm soumik-java-container2
+Remove the image : docker rmi soumik/java2
+================================================================================================================
 
 
+Creating a container with a volume:
+========================================================================================================
+Creating a container with a volume :  docker run -d  --name soumik-java-container2 --volume test-volume2:/app soumik/java2
+Log in to the running container :  docker exec -it  soumik-java-container2 bash
+Create a file within the container : echo "This is SOumik" > test1.txt
+List the file : ls -rtl
+Stop the container and remove the container : docker stop soumik-java-container2 && doker rm soumik-java-container2
+Again create the container to verify that the created file is not lost : docker run -d  --name soumik-java-container2 --volume test-volume2:/app soumik/java2
+Login and list the files to verify that it still exists
+================================================================================================================
 
 
-docker run -it  --name soumik-java-container2 soumik/java
+Passing environment variable and reading from program:
+================================================================================================================
+Passing environment variable : docker run -e MSG_SENDER=Soumik-house --name soumik-java-container2 soumik/java2
 
+
+Connecting from one docker container (client container) to another docker container (server container) :
+================================================================================================================
+Build the server program : docker build -t soumik/java3  -f ServerDockerfile .
+Run the server program: docker run --name soumik-java-container3  -p 9876:9876  soumik/java3
+
+Build the client program :  docker build -t soumik/java4  -f ClientDockerfile .
+Run the client program: 
+
+Jenkins:
+=========
+Easiest way to run is to use docker image of Jenkins:
+docker run -p 8080:8080 -p 50000:50000 --restart=on-failure -v jenkins_home:/var/jenkins_home jenkins/jenkins:lts-jdk11
+
+jenkins admin username created = msoumik/Shivaya23$
+
+================================================================================================================
 
 
 
